@@ -14,13 +14,21 @@ class Client(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField()
     added_date = models.DateField(auto_now_add=True)
+    image = models.ImageField(upload_to='media/products/%Y/%m/%d', blank=True)
 
     def __str__(self):
         return self.name
+
+    @property
+    def imageURL(self):
+        if self.image:
+            return self.image.url
+        else:
+            return ''
 
 
 class Order(models.Model):
